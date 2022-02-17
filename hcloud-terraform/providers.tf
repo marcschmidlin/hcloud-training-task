@@ -1,0 +1,24 @@
+provider "hcloud" {
+  token = var.hcloud_token
+}
+provider "cloudflare" {
+  version = "~> 3.0"
+  email = var.cf_email
+  api_key = var.cf_api_key
+}
+
+terraform {
+  required_providers {
+    hcloud = {
+      source = "hetznercloud/hcloud"
+    }
+    cloudflare = {
+      source = "cloudflare/cloudflare"
+      version = "~> 3.0"
+    }
+    local = {
+    source  = "hashicorp/local"
+    version = ">=1.4.0"
+  }
+}
+}

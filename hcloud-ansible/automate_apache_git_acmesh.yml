@@ -1,0 +1,84 @@
+- hosts: all
+  become: true 
+  vars:
+    project_root: /var/www/html
+    
+  tasks:  
+    - name: Check if Apache is installed
+      stat:
+        path: /etc/httpd/conf
+      register: httpd_result
+    - name: Install Apache Webserver
+      package:
+        name: httpd
+        state: latest
+      when: not httpd_result.stat.exists  
+    - name: yum | install mod_ssl
+      yum: name={{ item }}
+      with_items:
+       - mod_ssl
+    - name: Enable service httpd, and not touch the running state
+      service:
+        name: httpd
+        enabled: yes
+        state: started
+    - name: Check if index is in place
+      stat:
+        path: /var/www/html/index.html
+      register: index_result
+    - name: Generate and Copy index.html
+      template: 
+        src: index.html.j2 
+        dest: "{{ project_root }}/index.html"
+      when: not index_result.stat.exists 
+    - name: Install Git
+      package:
+        name: git
+        state: latest
+    - name: Check if acme.sh is installed
+      stat:
+        path: /etc/acmesh/acme.sh
+      register: acme_sh_result
+    - name: Get Acmesh
+      git:
+        repo: https://github.com/acmesh-official/acme.sh.git 
+        dest: /etc/acmesh
+        version: 3.0.2 
+      when: not acme_sh_result.stat.exists
+    - name: Install Acmesh
+      shell: ./acme.sh --install -m  my@example.com
+      args:
+        chdir: /etc/acmesh/
+      when: not acme_sh_result.stat.exists
+    - name: Check if certificates are present
+      stat:
+        path: "/root/.acme.sh/{{ ansible_host }}/{{ ansible_host }}.cer"
+      register: certificate_result
+    - name: Issue Certificate
+      shell: ./acme.sh --issue -d {{ ansible_host }} -w /var/www/html
+      args:
+        chdir: /etc/acmesh/
+      environment:
+        CF_Token: {{ CF_Token }}
+        CF_Account_ID: {{ CF_Account_ID }}
+        CF_Zone_ID: {{ CF_Zone_ID }}
+      when: not certificate_result.stat.exists
+      notify: restart apache
+    - name: SLLCertificateFile Path in ssl.conf
+      lineinfile:
+       path: /etc/httpd/conf.d/ssl.conf
+       regexp: '^SSLCertificateFile /etc/pki/tls/certs/localhost.crt'
+       line: "SSLCertificateFile /root/.acme.sh/{{ ansible_host }}/fullchain.cer"
+    - name: SLLCertificateFile Path in ssl.conf
+      lineinfile:
+       path: /etc/httpd/conf.d/ssl.conf
+       regexp: '^SSLCertificateKeyFile /etc/pki/tls/private/localhost.key'
+       line: "SSLCertificateKeyFile /root/.acme.sh/{{ ansible_host }}/{{ ansible_host }}.key"
+      notify: restart apache
+  handlers:
+  - name: restart apache
+    service: 
+      name: httpd 
+      state: restarted
+
+    
