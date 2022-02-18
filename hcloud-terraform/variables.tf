@@ -3,19 +3,18 @@ variable "hcloud_token" {
   type = string
 }
 
-variable "cf_api_key" {
-  description = "Cloudflare API Key"
+variable "cf_api_token" {
+  description = "Cloudflare API Token"
   type = string
 }
-
-variable "cf_email" {
-  description = "Cloudflare E-Mail"
-  type = string
-}
-
 
 variable "cf_zone_id" {
   description = "Cloudflare Zone ID"
+  type = string
+}
+
+variable "cf_account_id" {
+  description = "Cloudflare Account ID"
   type = string
 }
 

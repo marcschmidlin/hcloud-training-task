@@ -26,11 +26,30 @@
       stat:
         path: /var/www/html/index.html
       register: index_result
-    - name: Generate and Copy index.html
-      template: 
-        src: index.html.j2 
-        dest: "{{ project_root }}/index.html"
-      when: not index_result.stat.exists 
+    - name:  Copy index.html
+      copy: 
+        src: index.html
+        dest: /var/www/html/
+        owner: apache
+        group: apache
+        mode: '0644'
+      when: not index_result.stat.exists
+    - name:  Copy assets
+      copy: 
+        src: assets
+        dest: /var/www/html/
+        owner: apache
+        group: apache
+        mode: '0644'
+      when: not index_result.stat.exists
+    - name:  Copy images
+      copy: 
+        src: images
+        dest: /var/www/html/
+        owner: apache
+        group: apache
+        mode: '0644'
+      when: not index_result.stat.exists
     - name: Install Git
       package:
         name: git
@@ -55,25 +74,23 @@
         path: "/root/.acme.sh/{{ ansible_host }}/{{ ansible_host }}.cer"
       register: certificate_result
     - name: Issue Certificate
-      shell: ./acme.sh --issue -d {{ ansible_host }} -w /var/www/html
+      shell: ./acme.sh --issue --dns dns_cf --ocsp-must-staple --keylength ec-384 -d nikio.io -d '*.nikio.io' 
       args:
         chdir: /etc/acmesh/
       environment:
-        CF_Token: {{ CF_Token }}
-        CF_Account_ID: {{ CF_Account_ID }}
-        CF_Zone_ID: {{ CF_Zone_ID }}
+        CF_Token: "{{ CF_Token }}"
       when: not certificate_result.stat.exists
       notify: restart apache
     - name: SLLCertificateFile Path in ssl.conf
       lineinfile:
        path: /etc/httpd/conf.d/ssl.conf
        regexp: '^SSLCertificateFile /etc/pki/tls/certs/localhost.crt'
-       line: "SSLCertificateFile /root/.acme.sh/{{ ansible_host }}/fullchain.cer"
+       line: "SSLCertificateFile /root/.acme.sh/nikio.io_ecc/fullchain.cer"
     - name: SLLCertificateFile Path in ssl.conf
       lineinfile:
        path: /etc/httpd/conf.d/ssl.conf
        regexp: '^SSLCertificateKeyFile /etc/pki/tls/private/localhost.key'
-       line: "SSLCertificateKeyFile /root/.acme.sh/{{ ansible_host }}/{{ ansible_host }}.key"
+       line: "SSLCertificateKeyFile /root/.acme.sh/nikio.io_ecc/nikio.io.key"
       notify: restart apache
   handlers:
   - name: restart apache
