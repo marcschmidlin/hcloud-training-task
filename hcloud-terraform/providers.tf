@@ -3,8 +3,7 @@ provider "hcloud" {
 }
 provider "cloudflare" {
   version = "~> 3.0"
-  email = var.cf_email
-  api_key = var.cf_api_key
+  api_token = var.cf_api_token
 }
 
 terraform {

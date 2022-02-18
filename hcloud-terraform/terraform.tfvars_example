@@ -2,7 +2,7 @@
 hcloud_token = ""
 
 // Cloudflare configuration
-cf_api_key = ""
+cf_api_token = ""
 cf_email = ""
 cf_zone_id = ""
 cf_account_id = ""
