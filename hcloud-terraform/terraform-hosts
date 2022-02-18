@@ -5,4 +5,5 @@ CF_Token='XhrNCxWDzx3m-6D6s62tVIxkFkah7eyWUAy4xjcG'
 [webserver]
 advancedautomation0.nikio.io ansible_user=root
 advancedautomation1.nikio.io ansible_user=root
+advancedautomation2.nikio.io ansible_user=root
 
