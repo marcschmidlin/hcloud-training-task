@@ -22,38 +22,19 @@
         name: httpd
         enabled: yes
         state: started
-    - name: Check if index is in place
-      stat:
-        path: /var/www/html/index.html
-      register: index_result
-    - name:  Copy index.html
-      copy: 
-        src: index.html
-        dest: /var/www/html/
-        owner: apache
-        group: apache
-        mode: '0644'
-      when: not index_result.stat.exists
-    - name:  Copy assets
-      copy: 
-        src: assets
-        dest: /var/www/html/
-        owner: apache
-        group: apache
-        mode: '0644'
-      when: not index_result.stat.exists
-    - name:  Copy images
-      copy: 
-        src: images
-        dest: /var/www/html/
-        owner: apache
-        group: apache
-        mode: '0644'
-      when: not index_result.stat.exists
     - name: Install Git
       package:
         name: git
         state: latest
+    - name: Check if index is in place
+      stat:
+        path: /var/www/html/index.html
+      register: index_result 
+    - name: Get Website
+      git:
+        repo: https://github.com/marcschmidlin/test-website
+        dest: /var/www/html/
+      when: not index_result.stat.exists
     - name: Check if acme.sh is installed
       stat:
         path: /etc/acmesh/acme.sh
