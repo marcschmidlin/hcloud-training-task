@@ -24,3 +24,24 @@ variable "advancedautomation_server_count" {
   default = 1
 }
 
+variable "domain_name_loadbalancer" {
+  description = "IP range for the Network"
+  type = string
+}
+
+variable "subdomain_name_cloudserver" {
+  description = "IP range for the Network"
+  type = string
+}
+
+variable "ip_range_network" {
+  description = "IP range for the Network"
+  type = string
+  default = "10.0.0.0/16"
+}
+variable "ip_range_subnet" {
+  description = "IP range for Subnet"
+  type = string
+  default = "10.0.1.0/24"
+}
+
