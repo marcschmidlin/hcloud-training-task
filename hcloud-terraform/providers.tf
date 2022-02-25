@@ -5,7 +5,6 @@ provider "cloudflare" {
   version = "~> 3.0"
   api_token = var.cf_api_token
 }
-
 terraform {
   required_providers {
     hcloud = {
