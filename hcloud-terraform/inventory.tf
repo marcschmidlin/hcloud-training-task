@@ -1,6 +1,6 @@
 # generate inventory file for Ansible
 resource "local_file" "ansible-hosts" {
-  content = templatefile("template.tpl",
+  content = templatefile("template-bastion.tpl",
     {
       hosts = cloudflare_record.advancedautomation[*].hostname
       cf_account_id = var.cf_account_id

@@ -10,5 +10,7 @@ cf_account_id = ""
 //advancedautomation_server_count = 3
 
 // Network configuration
-domain_name_loadbalancer = "advancedautomation"
-subdomain_name_cloudserver = "cloudautomation"
+domain_name_loadbalancer = "loadbalancer"
+subdomain_name_cloudserver = "cloud"
+subdomain_name_bastion = "bastion"
+domain_name = "nikio.io"

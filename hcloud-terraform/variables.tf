@@ -24,16 +24,24 @@ variable "advancedautomation_server_count" {
   default = 1
 }
 
+variable "domain_name" {
+  description = "domain name"
+  type = string
+}
+
 variable "domain_name_loadbalancer" {
   description = "IP range for the Network"
   type = string
 }
 
 variable "subdomain_name_cloudserver" {
-  description = "IP range for the Network"
+  description = "Subdomain Name for Cloudserver"
   type = string
 }
-
+variable "subdomain_name_bastion" {
+  description = "Subdomain Name for Bastion VM"
+  type = string
+}
 variable "ip_range_network" {
   description = "IP range for the Network"
   type = string
