@@ -1,0 +1,11 @@
+- hosts: all
+  become: true 
+
+  tasks: 
+    - name: Copy SSH Key
+      copy:
+        src: ~/.ssh/id_rsa
+        dest: ~/.ssh/id_rsa
+        owner: root
+        mode: 0600
+        
