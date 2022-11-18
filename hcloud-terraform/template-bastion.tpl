@@ -8,4 +8,7 @@ ${host} ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa
 %{ endfor ~}
 
 [webserver:vars]
-ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q bastion"'
+ansible_ssh_common_args='-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o ProxyCommand="ssh -W %h:%p -q root@bastion.nikio.io"'
+
+[bastion]
+bastion.nikio.io ansible_user=root ansible_ssh_private_key_file=~/.ssh/id_rsa 

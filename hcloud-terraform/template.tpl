@@ -7,3 +7,4 @@ CF_Token='${cf_api_token}'
 ${host} ansible_user=root
 %{ endfor ~}
 
+

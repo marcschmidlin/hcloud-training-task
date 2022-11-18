@@ -2,7 +2,6 @@ provider "hcloud" {
   token = var.hcloud_token
 }
 provider "cloudflare" {
-  version = "~> 3.0"
   api_token = var.cf_api_token
 }
 terraform {

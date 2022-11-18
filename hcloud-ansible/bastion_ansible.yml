@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: bastion
   become: true 
 
   tasks: 
@@ -8,4 +8,9 @@
         dest: ~/.ssh/id_rsa
         owner: root
         mode: 0600
-        
+    #- name: Deactivate Public Gateway after reboot
+    # shell: sysctl -w net.ipv4.ip_forward=1
+    #  shell: echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.d/ip_forward.conf
+    #- name: Deactivate Public Gateway after reboot
+    #  shell: sysctl -w net.ipv4.ip_forward=1
+     # shell: echo "net.ipv4.ip_forward = 1" >> /etc/sysctl.d/ip_forward.conf        
