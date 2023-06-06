@@ -8,10 +8,11 @@ terraform {
   required_providers {
     hcloud = {
       source = "hetznercloud/hcloud"
+      version = "1.39.0"
     }
     cloudflare = {
       source = "cloudflare/cloudflare"
-      version = "~> 3.0"
+      version = "4.6.0"
     }
     local = {
     source  = "hashicorp/local"
