@@ -25,8 +25,6 @@ sleep 1m
 
 
 cd ../hcloud-ansible
-ansible-playbook  bastion_ansible.yml -i ../hcloud-terraform/terraform-host-bastion
-
 ansible-playbook  automate_apache_git_acmesh.yml -i ../hcloud-terraform/terraform-hosts
 echo "everything done!"
 echo "Good Bye"

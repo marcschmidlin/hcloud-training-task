@@ -4,10 +4,10 @@
     project_root: /var/www/html
     
   tasks: 
-    - name: Deactivate Public Gateway after reboot
-      shell: sed -i 's/^ONBOOT.*/ONBOOT=no/g' /etc/sysconfig/network-scripts/ifcfg-eth0
-    - name: Deactivate Public Gateway
-      shell: ip link set dev eth0 down
+    #- name: Deactivate Public Gateway after reboot
+      #shell: sed -i 's/^ONBOOT.*/ONBOOT=no/g' /etc/sysconfig/network-scripts/ifcfg-eth0
+    #- name: Deactivate Public Gateway
+      #shell: ip link set dev eth0 down
     - name: Check if Apache is installed
       stat: 
         path: /etc/httpd/conf
